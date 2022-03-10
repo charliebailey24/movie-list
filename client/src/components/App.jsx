@@ -1,7 +1,7 @@
 import React from 'react';
 import MovieList from './MovieList.jsx';
 import Search from './Search.jsx';
-console.log(React);
+import UserInput from './UserInput.jsx';
 
 var movies = [
   {title: 'Mean Girls'},
@@ -10,8 +10,6 @@ var movies = [
   {title: 'Sunshine'},
   {title: 'Ex Machina'},
 ];
-
-// npx babel . --out-dir=compiled --presets=@babel/preset-react --ignore=node_modules,compiled --source-maps=inline --watch
 
 // const App = (props) => {
 //   console.log(movies);
@@ -33,20 +31,22 @@ class App extends React.Component {
     super(props);
     this.state = {
       value: 'Search...',
-      movies: movies
+      movies: movies,
+      input: 'test',
+      userMovie: []
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleUserChange = this.handleUserChange.bind(this);
+    this.handleUserSubmit = this.handleUserSubmit.bind(this);
   }
 
   handleChange(event) {
-    console.log('handleChange is triggering');
     this.setState({value: event.target.value});
   }
 
   handleSubmit(event) {
-    console.log('handleSubmit is triggering');
     // create a result array
     // iterate over movies
      // if the current movie title includes the search term
@@ -60,13 +60,27 @@ class App extends React.Component {
       foundMovies.push({title: 'No movies. Sorry, Charlie!'});
     }
     this.setState({movies: foundMovies});
-    event.preventDefault();
+    event.preventDefault(); // need to return to defaul at some point
+  }
+
+  handleUserChange(event) {
+    console.log('handleUserChange triggering');
+    this.setState({input: event.target.value});
+  }
+
+  handleUserSubmit(event) {
+    console.log('handleUserSubmit triggering');
+    // set the movies in state as the movies the user adds
+    const userMovies = this.state.userMovies;
+    userMovies.push({title: event.target.value});
+    this.setState({userMovies: userMovies}); // ENDED HERE! This doesn't work
   }
 
   render() {
     return (
       <div className="movie-list">
         <h1 className="title">MovieList</h1>
+        <div className="user-input"><UserInput state={this.state} handleUserChange={this.handleUserChange} handleUserSubmit={this.handleUserSubmit} /></div>
         <div className="search-bar"><Search state={this.state} handleChange={this.handleChange} handleSubmit={this.handleSubmit} /></div>
         <div className="movie-list-container">
           <div><MovieList movies={this.state.movies}/></div>
@@ -99,8 +113,12 @@ export default App;
   // lift state up from Search onChange (done)
 
 // sub-problem 3: display all matches or partial matches from search submit
-  // write handleSubmit function logic
-  //
+  // write handleSubmit function logic (done)
 
+// sub-problem 4: Add input field for user to add movies
+  // create a user input module (done)
+  // lay all pathing for user input component (done)
+  // write handleUserChange function
+  // write handleUserSubmit function
 
 

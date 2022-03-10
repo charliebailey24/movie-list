@@ -12,7 +12,7 @@ body {
 }
 
 .movie-list {
-  width: 600px;
+  width: 300px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -26,7 +26,9 @@ body {
 }
 
 .search-bar {
-  border-style: solid;
-  border-width: 2px;
-  border-color: red;
+  padding: 5px;
+}
+
+.user-input {
+  padding: 5px;
 }
