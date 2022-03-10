@@ -1,3 +1,32 @@
 body {
   font-family: sans-serif, arial;
 }
+
+.title {
+  background-color: F7F7F7;
+  border-bottom-style: solid;
+  border-width: 2px;
+  border-color: black;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.movie-list {
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-style: solid;
+  border-width: 2px;
+  border-color: black;
+}
+
+.movie-list-container {
+  width: 400px;
+}
+
+.search-bar {
+  border-style: solid;
+  border-width: 2px;
+  border-color: red;
+}
