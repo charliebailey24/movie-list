@@ -30,50 +30,32 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: 'Search...',
-      movies: movies,
-      input: 'test',
-      userMovie: []
+      movies: movies
     };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleUserChange = this.handleUserChange.bind(this);
-    this.handleUserSubmit = this.handleUserSubmit.bind(this);
+    this.populateMovies = this.populateMovies.bind(this);
   }
 
-  handleChange(event) {
-    this.setState({value: event.target.value});
+  // handleUserChange(event) {
+  //   console.log('handleUserChange triggering');
+  //   this.setState({input: event.target.value});
+  // }
+
+  // handleUserSubmit(event) {
+  //   console.log('handleUserSubmit triggering');
+  //   // set the movies in state as the movies the user adds
+  //   const userMovies = this.state.userMovies;
+  //   userMovies.push({title: event.target.value});
+  //   this.setState({userMovies: userMovies}); // ENDED HERE! This doesn't work
+  // }
+
+  addUserMovie(movie) {
+    this.setState()
   }
 
-  handleSubmit(event) {
-    // create a result array
-    // iterate over movies
-     // if the current movie title includes the search term
-       // push movie to result
-    // set state to result
-    const foundMovies = movies.filter((movie) => {
-      return movie.title.toLowerCase().includes(this.state.value.toLowerCase());
-    });
-    console.log(foundMovies);
-    if (foundMovies.length === 0) {
-      foundMovies.push({title: 'No movies. Sorry, Charlie!'});
-    }
+  populateMovies(foundMovies) {
+    console.log('populateMovies is triggering');
     this.setState({movies: foundMovies});
-    event.preventDefault(); // need to return to defaul at some point
-  }
-
-  handleUserChange(event) {
-    console.log('handleUserChange triggering');
-    this.setState({input: event.target.value});
-  }
-
-  handleUserSubmit(event) {
-    console.log('handleUserSubmit triggering');
-    // set the movies in state as the movies the user adds
-    const userMovies = this.state.userMovies;
-    userMovies.push({title: event.target.value});
-    this.setState({userMovies: userMovies}); // ENDED HERE! This doesn't work
+    event.preventDefault();
   }
 
   render() {
@@ -81,7 +63,7 @@ class App extends React.Component {
       <div className="movie-list">
         <h1 className="title">MovieList</h1>
         <div className="user-input"><UserInput state={this.state} handleUserChange={this.handleUserChange} handleUserSubmit={this.handleUserSubmit} /></div>
-        <div className="search-bar"><Search state={this.state} handleChange={this.handleChange} handleSubmit={this.handleSubmit} /></div>
+        <div className="search-bar"><Search cb={this.populateMovies} /></div>
         <div className="movie-list-container">
           <div><MovieList movies={this.state.movies}/></div>
         </div>
@@ -121,4 +103,11 @@ export default App;
   // write handleUserChange function
   // write handleUserSubmit function
 
+/*
+Post workshop to-do:
+1: refactor search to be a stateful component
+  a: store the search text in search state
+  b: clear the text after seach complete
 
+
+*/
