@@ -3,14 +3,6 @@ import MovieList from './MovieList.jsx';
 import Search from './Search.jsx';
 import UserInput from './UserInput.jsx';
 
-var movies = [
-  {title: 'Mean Girls'},
-  {title: 'Hackers'},
-  {title: 'The Grey'},
-  {title: 'Sunshine'},
-  {title: 'Ex Machina'},
-];
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -20,6 +12,16 @@ class App extends React.Component {
     this.findMovies = this.findMovies.bind(this);
     this.addUserMovie = this.addUserMovie.bind(this);
   }
+
+  componentDidMount() {
+    fetch('/api/movies')
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      this.setState({movies: data});
+    })
+  };
 
   addUserMovie(userMovie) {
     this.setState({movies: [...this.state.movies, userMovie]});

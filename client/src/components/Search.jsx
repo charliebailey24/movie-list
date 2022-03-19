@@ -18,13 +18,27 @@ class Search extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const foundMovies = this.props.movies.filter((movie) => {
-      return movie.title.toLowerCase().includes(this.state.query.toLowerCase());
-    });
-    if (foundMovies.length === 0) {
-      foundMovies.push({title: 'No movies. Sorry, Charlie!'});
-    }
-    this.props.findMovies(foundMovies);
+
+    fetch(`/api/movies/search?term=${this.state.query}`)
+    .then((res) => {
+      console.log('res:::', res);
+      return res.json();
+    })
+    .then((data) => {
+      console.log('data:::', data);
+      this.props.findMovies(data);
+    })
+
+
+    // const foundMovies = this.props.movies.filter((movie) => {
+    //   return movie.title.toLowerCase().includes(this.state.query.toLowerCase());
+    // });
+    // if (foundMovies.length === 0) {
+    //   foundMovies.push({title: 'No movies. Sorry, Charlie!'});
+    // }
+    // this.props.findMovies(foundMovies);
+
+
     this.setState({query: ''});
   }
 
