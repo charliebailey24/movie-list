@@ -6,7 +6,7 @@ USE moviesdb;
 
 CREATE TABLE movies (
   id INT NOT NULL AUTO_INCREMENT,
-  title VARCHAR(20) NOT NULL,
+  title VARCHAR(500) NOT NULL,
   PRIMARY KEY (id)
 );
 

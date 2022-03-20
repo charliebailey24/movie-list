@@ -2,9 +2,9 @@ const express = require('express');
 const app = express();
 const PORT = 3000 || process.env.PORT;
 const mysql = require('mysql2');
-
-// express.static(root, [options])
-// The root argument specifies the root directory from which to serve static assets.
+// const routes = require('./routes.js');
+const movies = require('./controllers/movies.js');
+const search = require('./controllers/search.js');
 
 app.use(express.static('client/dist'));
 app.use(express.json());
@@ -13,63 +13,67 @@ app.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}`);
 });
 
-// need app.get middleware
-// app.get(path, callback [, callback ...])
+// To use the router module in our main app file we first require() the route module (wiki.js). We then call use() on the Express application to add the Router to the middleware handling path, specifying a URL path of 'wiki'.
 
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  database: 'moviesdb'
-});
+// route the incoming requests correctly
 
-app.get('/api/movies/search', (req, res) => {
-  // express method to parse the url
-  // log request.params
-  var { term } = req.query;
-  var query = 'SELECT * FROM movies WHERE title = ?';
-  var queryArgs = [term];
+// app.use('/api/movies', routes);
 
-  connection.query(
-    query, queryArgs, function(err, results) {
-      if (err) {
-        res.status(400).send(err);
-      } else {
-        res.send(JSON.stringify(results));
-      }
-    }
-  )
-});
+app.get('/api/movies', movies.get);
+app.post('/api/movies', movies.post);
+app.get('/api/movies/search', search.get);
 
-app.get('/api/movies', (req, res) => {
-  var query = 'SELECT * FROM movies';
+// const connection = mysql.createConnection({
+//   host: 'localhost',
+//   user: 'root',
+//   database: 'moviesdb'
+// });
 
-  connection.query(
-    query, function(err, results) {
-      if (err) {
-        res.status(404).send(err);
-      } else {
-        res.send(JSON.stringify(results));
-      }
-    }
-  )
-});
+// app.get('/api/movies/search', (req, res) => {
+//   var { term } = req.query;
+//   var query = 'SELECT * FROM movies WHERE title LIKE ?';
+//   var queryArgs = [`%${term}%`];
 
-app.post('/api/movies', (req, res) => {
-  console.log('req.body:::', req.body);
-  var { title } = req.body;
-  var query = 'INSERT INTO movies VALUES (null, ?)';
-  var queryArgs = [title];
+//   connection.query(
+//     query, queryArgs, function(err, results) {
+//       if (err) {
+//         res.status(400).send(err);
+//       } else {
+//         res.send(JSON.stringify(results));
+//       }
+//     }
+//   )
+// });
 
-  connection.query(
-    query, queryArgs, function(err, results) {
-      if (err) {
-        res.status(404).send(err);
-      } else {
-        res.status(201).send(results);
-      }
-    }
-  )
-});
+// app.get('/api/movies', (req, res) => {
+//   var query = 'SELECT * FROM movies';
+
+//   connection.query(
+//     query, function(err, results) {
+//       if (err) {
+//         res.status(404).send(err);
+//       } else {
+//         res.send(JSON.stringify(results));
+//       }
+//     }
+//   )
+// });
+
+// app.post('/api/movies', (req, res) => {
+//   var { title } = req.body;
+//   var query = 'INSERT INTO movies VALUES (null, ?)';
+//   var queryArgs = [title];
+
+//   connection.query(
+//     query, queryArgs, function(err, results) {
+//       if (err) {
+//         res.status(404).send(err);
+//       } else {
+//         res.status(201).send(results);
+//       }
+//     }
+//   )
+// });
 
 
 /*
@@ -86,8 +90,10 @@ sub-problem 5: Write an /api/movies/search?term= get route that returns movies f
 sub-problem 6: add user input movie to the server
   6a: connect handleUserInputs to the server and pass a post request with the data input by the user (done)
   6b: parse the post request server side getting the user movie (done)
-  6c: add movie to database (wip)
-  6d: re-render to show added movie (next)
+  6c: add movie to database (done)
+  6d: re-render to show added movie (done)
+sub-problem 7: refactor server side code to have good seperation of concerns
+  7a: diagram the new flow
 
 
 
